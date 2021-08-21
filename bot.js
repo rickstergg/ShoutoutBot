@@ -2,7 +2,7 @@ const tmi = require('tmi.js');
 const config = require('config');
 const { greetMod, greetVIP, greetStreamer, isStreamer, isMod, isVIP } = require('./utils.js');
 
-// Get Configurations
+// Get configurations
 const twitchOpts = config.get('twitch');
 const client = new tmi.client(twitchOpts);
 
@@ -29,25 +29,12 @@ const onMessageHandler = (target, context, msg, self) => {
 
   if (alreadyShoutted.has(username)) { return; }
 
-  // Greet Streamer
-  const streamer = isStreamer(username);
-  if (streamer) {
-    setTimeout(() => client.say(target, greetStreamer(username, displayName)), delay);
-  } else {
-    console.log("=== DID NOT Greet ===", username, displayName);
-  }
+  isStreamer(username)
+    ? setTimeout(() => client.say(target, greetStreamer(username, displayName)), delay)
+    : console.log("=== DID NOT Greet ===", username, displayName);
 
-  // Greet Mod
-  const mod = isMod(username);
-  if (mod) {
-    setTimeout(() => client.say(target, greetMod(username, displayName)), delay);
-  }
-
-  // Greet VIPs
-  const vip = isVIP(username);
-  if (vip) {
-    setTimeout(() => client.say(target, greetVIP(username, displayName)), delay);
-  }
+  if (isMod(username)) { setTimeout(() => client.say(target, greetMod(username, displayName)), delay); }
+  if (isVIP(username)) { setTimeout(() => client.say(target, greetVIP(username, displayName)), delay); }
 
   alreadyShoutted.add(username);
 }
