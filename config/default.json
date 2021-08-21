@@ -1,0 +1,29 @@
+{
+  "delay": 5000,
+  "riot": {
+    "riotApiKey": "",
+    "region": "",
+    "summonerName": "",
+    "summonerId": ""
+  },
+  "spotify": {
+    "spotifyApiKey": ""
+  },
+  "twitch": {
+    "options": {
+      "debug": true,
+      "messagesLogLevel": "info"
+    },
+    "connection": {
+      "reconnect": true,
+      "secure": true
+    },
+    "identity": {
+      "username": "your bot username",
+      "password": "oauth:replaceme"
+    },
+    "channels": [
+      ""
+    ]
+  }
+}

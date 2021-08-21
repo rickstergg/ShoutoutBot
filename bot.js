@@ -1,25 +1,21 @@
 const tmi = require('tmi.js');
+const config = require('config');
 const { greetMod, greetVIP, greetStreamer, isStreamer, isMod, isVIP } = require('./utils.js');
 
-const opts = {
-  options: { debug: true, messagesLogLevel: "info" },
-  connection: {
-    reconnect: true,
-    secure: true
-  },
-  identity: {
-    username: 'your bots username',
-    password: 'your bots passowrd',
-  },
-  channels: [
-    'your channel name'
-  ]
-};
+// Get Configurations
+const twitchOpts = config.get('twitch');
+const client = new tmi.client(twitchOpts);
 
-const client = new tmi.client(opts);
+const delay = config.get('delay');
+const {
+  riotApiKey,
+  region,
+  summonerName,
+  summonerId,
+} = config.get('riot');
+const { spotifyApiKey } = config.get('spotify');
 
 const alreadyShoutted = new Set();
-const delay = 5000; // Delay in milliseconds for when to shoutout
 
 const onMessageHandler = (target, context, msg, self) => {
   if (self) { return; }
