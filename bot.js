@@ -17,6 +17,10 @@ const { spotifyApiKey } = config.get('spotify');
 
 const alreadyShoutted = new Set();
 
+const onRaidHandler = (channel, username, viewers) => {
+  setTimeout(() => client.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD! Welcome to the mind palace, raiders! Enjoy ya stay bb <3`, 10000));
+}
+
 const onMessageHandler = (target, context, msg, self) => {
   if (self) { return; }
 
@@ -41,6 +45,7 @@ const onMessageHandler = (target, context, msg, self) => {
 
 const onConnectedHandler = (addr, port) => console.log(`* Connected to ${addr}:${port}`);
 
+client.on('raided', onRaidHandler);
 client.on('message', onMessageHandler);
 client.on('connected', onConnectedHandler);
 
