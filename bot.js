@@ -1,18 +1,13 @@
-const tmi = require('tmi.js');
 const config = require('config');
-const { greetMod, greetVIP, greetStreamer, isStreamer, isMod, isVIP } = require('./utils.js');
+const tmi = require('tmi.js');
+const { formatLeagueRank, greetMod, greetVIP, greetStreamer, isStreamer, isMod, isVIP } = require('./utils.js');
+const { getLeagueRank } = require('./riot.js');
 
 // Get configurations
 const twitchOpts = config.get('twitch');
 const client = new tmi.client(twitchOpts);
 
 const delay = config.get('delay');
-const {
-  riotApiKey,
-  region,
-  summonerName,
-  summonerId,
-} = config.get('riot');
 const { spotifyApiKey } = config.get('spotify');
 
 const alreadyShoutted = new Set();
@@ -21,7 +16,7 @@ const onRaidHandler = (channel, username, viewers) => {
   setTimeout(() => client.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD! Welcome to the mind palace, raiders! Enjoy ya stay bb <3`, 10000));
 }
 
-const onMessageHandler = (target, context, msg, self) => {
+const onMessageHandler = (channel, context, msg, self) => {
   if (self) { return; }
 
   const {
@@ -31,14 +26,23 @@ const onMessageHandler = (target, context, msg, self) => {
     'user-id': userId
   } = context;
 
+  if (msg == '!rank') {
+    getLeagueRank()
+      .then(solo => client.say(channel, formatLeagueRank(solo), delay))
+      .catch(r => {
+        console.log(r);
+        client.say(channel, "Can't get rank, we done goofed", delay);
+      });
+  }
+
   if (alreadyShoutted.has(username)) { return; }
 
   isStreamer(username)
-    ? setTimeout(() => client.say(target, greetStreamer(username, displayName)), delay)
+    ? setTimeout(() => client.say(channel, greetStreamer(username, displayName)), delay)
     : console.log("=== DID NOT Greet ===", username, displayName);
 
-  if (isMod(username)) { setTimeout(() => client.say(target, greetMod(username, displayName)), delay); }
-  if (isVIP(username)) { setTimeout(() => client.say(target, greetVIP(username, displayName)), delay); }
+  if (isMod(username)) { setTimeout(() => client.say(channel, greetMod(username, displayName)), delay); }
+  if (isVIP(username)) { setTimeout(() => client.say(channel, greetVIP(username, displayName)), delay); }
 
   alreadyShoutted.add(username);
 }

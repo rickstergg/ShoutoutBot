@@ -107,8 +107,10 @@ const greetStreamer = (username, displayName) => `!so ${displayName}`;
 const isMod = username => mods[username];
 const isVIP = username => vips[username];
 const isStreamer = username => streamers[username];
+const formatLeagueRank = ({ tier, rank, leaguePoints, hotStreak }) => `${tier} ${rank} - ${leaguePoints} LP ${hotStreak ? '🔥' : ''}`;
 
 module.exports = {
+  formatLeagueRank,
   greetMod,
   greetVIP,
   greetStreamer,
