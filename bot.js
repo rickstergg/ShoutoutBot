@@ -26,6 +26,11 @@ const onMessageHandler = (channel, context, msg, self) => {
     'user-id': userId
   } = context;
 
+  if (msg == 'Wanna become famous? Buy followers, primes and viewers on bigfollows . com !') {
+    client.say(channel, `/ban ${displayName}`);
+    return;
+  }
+
   if (msg == '!rank') {
     getLeagueRank()
       .then(solo => client.say(channel, formatLeagueRank(solo), delay))
