@@ -101,7 +101,7 @@ const vips = {
 };
 
 const greetMod = (username, displayName) => mods[username] ? mods[username] : `Thank you for modding, ${displayName}!`;
-const greetVIP = (username, displayName) => vips[username] ? `HI BEEB!` : `Hello dere ${displayName} ;)`;
+const greetVIP = (username, displayName) => vips[username] ? `HI BEEB!` : `Hello dere fam ;)`;
 const greetStreamer = (username, displayName) => `!so ${displayName}`;
 
 const isMod = username => mods[username];
