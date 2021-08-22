@@ -3,17 +3,20 @@ const tmi = require('tmi.js');
 const { formatLeagueRank, greetMod, greetVIP, greetStreamer, isStreamer, isMod, isVIP } = require('./utils.js');
 const { getLeagueRank } = require('./riot.js');
 
-// Get configurations
 const twitchOpts = config.get('twitch');
 const client = new tmi.client(twitchOpts);
 
 const delay = config.get('delay');
-const { spotifyApiKey } = config.get('spotify');
+const {
+  spotifyClientId,
+  spotifyClientSecret,
+} = config.get('spotify');
 
 const alreadyShoutted = new Set();
 
 const onRaidHandler = (channel, username, viewers) => {
   setTimeout(() => client.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD! Welcome to the mind palace, raiders! Enjoy ya stay bb <3`, 10000));
+  alreadyShoutted.add(username);
 }
 
 const onMessageHandler = (channel, context, msg, self) => {
