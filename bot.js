@@ -31,6 +31,7 @@ const onMessageHandler = (channel, context, msg, self) => {
 
   if (msg == 'Wanna become famous? Buy followers, primes and viewers on bigfollows . com !') {
     client.say(channel, `/ban ${displayName}`);
+    client.say(channel, `${displayName}, Rickster is already famous, don't test me.`);
     return;
   }
 
