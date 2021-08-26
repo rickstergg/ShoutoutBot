@@ -1,27 +1,43 @@
-const config = require('config');
 const tmi = require('tmi.js');
+const config = require('config');
 const bent = require('bent');
 const getJSON = bent('json');
 
-const { formatLeagueRank, getCooldownPercentage, greetMod, greetVIP, greetStreamer, isStreamer, isMod, isVIP } = require('./utils.js');
-const { champNames, bChampNames, validateChampName, validateCooldown, validateSkillName } = require('./validate.js');
+const {
+  formatLeagueRank,
+  getCooldownPercentage,
+  greetMod,
+  greetVIP,
+  greetStreamer,
+  isStreamer,
+  isMod,
+  isVIP
+} = require('./utils.js');
+
+const {
+  champNames,
+  bChampNames,
+  validateChampName,
+  validateCooldown,
+  validateSkillName
+} = require('./validate.js');
+
 const { getLeagueRank } = require('./riot.js');
-
 const twitchOpts = config.get('twitch');
-const client = new tmi.client(twitchOpts);
-
 const delay = config.get('delay');
 const {
   spotifyClientId,
   spotifyClientSecret,
 } = config.get('spotify');
 
+const twitch = new tmi.client(twitchOpts);
+
 const alreadyShoutted = new Set();
 
 const handleCommands = async (channel, displayName, message) => {
   if (message == 'Wanna become famous? Buy followers, primes and viewers on bigfollows . com !') {
-    client.say(channel, `/ban ${displayName}`);
-    client.say(channel, `${displayName}, Rickster is already famous, don't test me.`);
+    twitch.say(channel, `/ban ${displayName}`);
+    twitch.say(channel, `${displayName}, Rickster is already famous, don't test me.`);
     return;
   }
 
@@ -31,10 +47,10 @@ const handleCommands = async (channel, displayName, message) => {
     // Get the rank to take in a summoner name period
     // include the platform too pls
     getLeagueRank()
-      .then(solo => client.say(channel, formatLeagueRank(solo), delay))
+      .then(solo => twitch.say(channel, formatLeagueRank(solo), delay))
       .catch(r => {
         console.log(r);
-        client.say(channel, "Can't get rank, we done goofed", delay);
+        twitch.say(channel, "Can't get rank, we done goofed", delay);
       });
   }
 
@@ -42,17 +58,17 @@ const handleCommands = async (channel, displayName, message) => {
     const [champName, skillName, cooldown] = message.split(' ').slice(1);
 
     if (!validateChampName(champName)) {
-      client.say(channel, `Cannot find champ name: ${champName}`, delay);
+      twitch.say(channel, `Cannot find champ name: ${champName}`, delay);
       return;
     }
 
     if (!validateSkillName(skillName)) {
-      client.say(channel, `Skillname must be 'q', 'w', 'e', or 'r' for now! Got ${skillName}`, delay);
+      twitch.say(channel, `Skillname must be 'q', 'w', 'e', or 'r' for now! Got ${skillName}`, delay);
       return;
     }
 
     if (cooldown && !validateCooldown(cooldown)) {
-      client.say(channel, `Cooldown must be in the form of ability haste, 0 <= num <= 150`, delay);
+      twitch.say(channel, `Cooldown must be in the form of ability haste, 0 <= num <= 150`, delay);
       return;
     }
 
@@ -65,17 +81,17 @@ const handleCommands = async (channel, displayName, message) => {
     if (cooldown) {
       const percentage = Math.floor(getCooldownPercentage(cooldown)) / 100;
       const cooldownsWithReduction = spellCooldown.map(cd => parseFloat((cd * (1 - percentage)).toFixed(2)).toString()).join(', ');
-      client.say(channel, `${realChampName} ${skillName.toUpperCase()}: ${cooldownsWithReduction}`, delay);
+      twitch.say(channel, `${realChampName} ${skillName.toUpperCase()}: ${cooldownsWithReduction}`, delay);
     } else {
-      client.say(channel, `${realChampName} ${skillName.toUpperCase()}: ${spellCooldown.join(', ')}`, delay);
+      twitch.say(channel, `${realChampName} ${skillName.toUpperCase()}: ${spellCooldown.join(', ')}`, delay);
     }
   }
 }
 
 const onRaidHandler = (channel, username, viewers) => {
   console.log(`=== RAID for ${viewers} viewers from ${username} ===`);
-  setTimeout(() => client.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD! Welcome to the mind palace, raiders! Enjoy ya stay bb <3`, 7000));
-  setTimeout(() => client.say(channel, `!so ${username}`, 8000));
+  setTimeout(() => twitch.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD! Welcome to the mind palace, raiders! Enjoy ya stay bb <3`, 7000));
+  setTimeout(() => twitch.say(channel, `!so ${username}`, 8000));
   alreadyShoutted.add(username);
 }
 
@@ -93,9 +109,9 @@ const onMessageHandler = (channel, context, message, self) => {
 
   if (alreadyShoutted.has(username)) { return; }
 
-  if (isStreamer(username)) { setTimeout(() => client.say(channel, greetStreamer(username, displayName)), delay); }
-  if (isMod(username)) { setTimeout(() => client.say(channel, greetMod(username, displayName)), delay); }
-  if (isVIP(username)) { setTimeout(() => client.say(channel, greetVIP(username, displayName)), delay); }
+  if (isStreamer(username)) { setTimeout(() => twitch.say(channel, greetStreamer(username, displayName)), delay); }
+  if (isMod(username)) { setTimeout(() => twitch.say(channel, greetMod(username, displayName)), delay); }
+  if (isVIP(username)) { setTimeout(() => twitch.say(channel, greetVIP(username, displayName)), delay); }
 
   console.log("=== SAW ", username, displayName, " ===");
   alreadyShoutted.add(username);
@@ -104,8 +120,8 @@ const onMessageHandler = (channel, context, message, self) => {
 const onConnectedHandler = (addr, port) => console.log(`* Connected to ${addr}:${port}`);
 
 // host one too
-client.on('raided', onRaidHandler);
-client.on('message', onMessageHandler);
-client.on('connected', onConnectedHandler);
+twitch.on('raided', onRaidHandler);
+twitch.on('message', onMessageHandler);
+twitch.on('connected', onConnectedHandler);
 
-client.connect();
+twitch.connect();
