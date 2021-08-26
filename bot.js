@@ -6,11 +6,9 @@ const getJSON = bent('json');
 const {
   formatLeagueRank,
   getCooldownPercentage,
-  greetMod,
   greetVIP,
   greetStreamer,
   isStreamer,
-  isMod,
   isVIP
 } = require('./utils.js');
 
@@ -80,7 +78,7 @@ const handleCommands = async (channel, displayName, message) => {
 
     if (cooldown) {
       const percentage = Math.floor(getCooldownPercentage(cooldown)) / 100;
-      const cooldownsWithReduction = spellCooldown.map(cd => parseFloat((cd * (1 - percentage)).toFixed(2)).toString()).join(', ');
+      const cooldownsWithReduction = spellCooldown.map(cd => parseFloat((cd * (1 - percentage)).toFixed(1)).toString()).join(', ');
       twitch.say(channel, `${realChampName} ${skillName.toUpperCase()}: ${cooldownsWithReduction}`, delay);
     } else {
       twitch.say(channel, `${realChampName} ${skillName.toUpperCase()}: ${spellCooldown.join(', ')}`, delay);
@@ -110,7 +108,6 @@ const onMessageHandler = (channel, context, message, self) => {
   if (alreadyShoutted.has(username)) { return; }
 
   if (isStreamer(username)) { setTimeout(() => twitch.say(channel, greetStreamer(username, displayName)), delay); }
-  if (isMod(username)) { setTimeout(() => twitch.say(channel, greetMod(username, displayName)), delay); }
   if (isVIP(username)) { setTimeout(() => twitch.say(channel, greetVIP(username, displayName)), delay); }
 
   console.log("=== SAW ", username, displayName, " ===");
