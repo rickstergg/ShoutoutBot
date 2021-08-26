@@ -1,5 +1,4 @@
 const mods = {
-  genosahjussi: 'The Super Special Soju Shitbutt King has fucking. ARRRIIIIIIIVED!',
   squatbunnie: 'The most innocent bunnie here!',
   ca5an0va: 'See you at Donnys bro.',
   stefybear: 'The one and only STEFYBWEAR!!',
@@ -9,7 +8,6 @@ const mods = {
 
 const streamers = {
   // Mods who also stream
-  genosahjussi: true,
   squatbunnie: true,
   stefybear: true,
   abr71310: true,
@@ -94,6 +92,8 @@ const streamers = {
   ultravioletriot: true,
   yeeetusd3letus: true,
   prettyoddish: true,
+  r0semilktea: true,
+  jkawalyn: true,
 };
 
 const vips = {
@@ -109,8 +109,14 @@ const isVIP = username => vips[username];
 const isStreamer = username => streamers[username];
 const formatLeagueRank = ({ tier, rank, leaguePoints, hotStreak }) => `${tier} ${rank} - ${leaguePoints} LP ${hotStreak ? '🔥' : ''}`;
 
+const getCooldownPercentage = cooldown => {
+  const cd = parseFloat(cooldown);
+  return (1 - (1 / (1 + (cooldown / 100)))) * 100;
+};
+
 module.exports = {
   formatLeagueRank,
+  getCooldownPercentage,
   greetMod,
   greetVIP,
   greetStreamer,
