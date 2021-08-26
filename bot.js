@@ -73,7 +73,9 @@ const handleCommands = async (channel, displayName, message) => {
 }
 
 const onRaidHandler = (channel, username, viewers) => {
-  setTimeout(() => client.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD! Welcome to the mind palace, raiders! Enjoy ya stay bb <3`, 10000));
+  console.log(`=== RAID for ${viewers} viewers from ${username} ===`);
+  setTimeout(() => client.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD! Welcome to the mind palace, raiders! Enjoy ya stay bb <3`, 7000));
+  setTimeout(() => client.say(channel, `!so ${username}`, 8000));
   alreadyShoutted.add(username);
 }
 
