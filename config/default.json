@@ -1,10 +1,9 @@
 {
-  "delay": 5000,
+  "delay": 3500,
   "riot": {
     "riotApiKey": "",
     "region": "",
-    "summonerName": "",
-    "summonerId": ""
+    "defaultSummonerName": ""
   },
   "spotify": {
     "spotifyClientId": "",
@@ -20,11 +19,17 @@
       "secure": true
     },
     "identity": {
-      "username": "your bot username",
-      "password": "oauth:replaceme"
+      "username": "",
+      "password": ""
     },
     "channels": [
-      ""
+      "your channel"
     ]
-  }
+  },
+  "vips": [
+    "vip1"
+  ],
+  "streamers": [
+    "streamer1"
+  ]
 }

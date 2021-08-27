@@ -39,17 +39,11 @@ const handleCommands = async (channel, displayName, message) => {
     return;
   }
 
-  // !ban
-
-  if (message == '!rank') {
-    // Get the rank to take in a summoner name period
-    // include the platform too pls
-    getLeagueRank()
+  if (message.startsWith('!rank')) {
+    const summonerName = message.substr(6);
+    getLeagueRank(summonerName)
       .then(solo => twitch.say(channel, formatLeagueRank(solo), delay))
-      .catch(r => {
-        console.log(r);
-        twitch.say(channel, "Can't get rank, we done goofed", delay);
-      });
+      .catch(r => twitch.say(channel, `The summoner '${summonerName}' is not ranked for solo/duo!`, delay));
   }
 
   if (message.includes('!cd')) {
