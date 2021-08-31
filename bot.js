@@ -23,6 +23,7 @@ const {
 const { getLeagueRank } = require('./riot.js');
 const twitchOpts = config.get('twitch');
 const delay = config.get('delay');
+const banList = config.get('banList');
 const {
   spotifyClientId,
   spotifyClientSecret,
@@ -32,11 +33,21 @@ const twitch = new tmi.client(twitchOpts);
 
 const alreadyShoutted = new Set();
 
-const handleCommands = async (channel, displayName, message) => {
+const ban = (channel, name) => {
+  twitch.say(channel, `/ban ${name}`);
+}
+
+const handleCommandsAndMessages = async (channel, displayName, message) => {
   if (message == 'Wanna become famous? Buy followers, primes and viewers on bigfollows . com !') {
-    twitch.say(channel, `/ban ${displayName}`);
+    ban(channel, displayName);
     twitch.say(channel, `${displayName}, Rickster is already famous, don't test me.`);
     return;
+  }
+
+  if (message == '!ban list') {
+    banList.forEach((botName, index) => {
+      setTimeout(() => { ban(channel, botName) }, index * 500);
+    });
   }
 
   if (message.startsWith('!rank')) {
@@ -55,17 +66,18 @@ const handleCommands = async (channel, displayName, message) => {
     }
 
     if (!validateSkillName(skillName)) {
-      twitch.say(channel, `Skillname must be 'q', 'w', 'e', or 'r' for now! Got ${skillName}`, delay);
+      twitch.say(channel, `Skillname must be 'q', 'w', 'e', or 'r', instead of '${skillName}'.`, delay);
       return;
     }
 
     if (cooldown && !validateCooldown(cooldown)) {
-      twitch.say(channel, `Cooldown must be in the form of ability haste, 0 <= num <= 150`, delay);
+      twitch.say(channel, `Cooldown must be in the form of ability haste, 0 <= num <= 300`, delay);
       return;
     }
 
     const realChampName = champNames[champName];
-    const url = `http://ddragon.leagueoflegends.com/cdn/11.16.1/data/en_US/champion/${realChampName}.json`;
+    const versions = await getJSON('https://ddragon.leagueoflegends.com/api/versions.json');
+    const url = `http://ddragon.leagueoflegends.com/cdn/${versions[0]}/data/en_US/champion/${realChampName}.json`;
     const champ = await getJSON(url);
     const spells = champ['data'][realChampName]['spells'];
     const spellCooldown = spells.find(skill => skill['id'] == `${realChampName}${skillName.toUpperCase()}`)['cooldown'];
@@ -97,13 +109,11 @@ const onMessageHandler = (channel, context, message, self) => {
     'user-id': userId,
   } = context;
 
-  handleCommands(channel, displayName, message);
+  handleCommandsAndMessages(channel, displayName, message);
 
   if (alreadyShoutted.has(username)) { return; }
-
   if (isStreamer(username)) { setTimeout(() => twitch.say(channel, greetStreamer(username, displayName)), delay); }
   if (isVIP(username)) { setTimeout(() => twitch.say(channel, greetVIP(username, displayName)), delay); }
-
   console.log("=== SAW ", username, displayName, " ===");
   alreadyShoutted.add(username);
 }
