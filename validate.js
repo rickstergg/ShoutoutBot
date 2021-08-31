@@ -321,7 +321,7 @@ const validateChampName = champName => {
 }
 
 const validateCooldown = cd => {
-  return !isNaN(cd) && cd >= 0;
+  return !isNaN(cd) && cd >= 0 && cd <= 300;
 }
 
 const validateSkillName = skill => {
