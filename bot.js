@@ -92,6 +92,14 @@ const handleCommandsAndMessages = async (channel, displayName, message) => {
   }
 }
 
+const handleShoutouts = (channel, username, displayName) => {
+  if (alreadyShoutted.has(username)) { return; }
+  if (isStreamer(username)) { setTimeout(() => twitch.say(channel, greetStreamer(username, displayName)), delay); }
+  if (isVIP(username)) { setTimeout(() => twitch.say(channel, greetVIP(username, displayName)), delay); }
+  console.log("=== SAW ", username, displayName, " ===");
+  alreadyShoutted.add(username);
+}
+
 const onRaidHandler = (channel, username, viewers) => {
   console.log(`=== RAID for ${viewers} viewers from ${username} ===`);
   setTimeout(() => twitch.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD! Welcome to the mind palace, raiders! Enjoy ya stay bb <3`, 7000));
@@ -110,12 +118,7 @@ const onMessageHandler = (channel, context, message, self) => {
   } = context;
 
   handleCommandsAndMessages(channel, displayName, message);
-
-  if (alreadyShoutted.has(username)) { return; }
-  if (isStreamer(username)) { setTimeout(() => twitch.say(channel, greetStreamer(username, displayName)), delay); }
-  if (isVIP(username)) { setTimeout(() => twitch.say(channel, greetVIP(username, displayName)), delay); }
-  console.log("=== SAW ", username, displayName, " ===");
-  alreadyShoutted.add(username);
+  handleShoutouts(channel, username, displayName);
 }
 
 const onConnectedHandler = (addr, port) => console.log(`* Connected to ${addr}:${port}`);
