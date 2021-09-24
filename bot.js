@@ -68,7 +68,7 @@ const handleCommandsAndMessages = async (channel, displayName, message) => {
       return;
     }
 
-    const realChampName = champNames[champName];
+    const realChampName = champNames[champName] || bChampNames[champName];
     const versions = await getJSON('https://ddragon.leagueoflegends.com/api/versions.json');
     const url = `http://ddragon.leagueoflegends.com/cdn/${versions[0]}/data/en_US/champion/${realChampName}.json`;
     const champ = await getJSON(url);
