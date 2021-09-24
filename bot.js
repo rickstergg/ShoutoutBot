@@ -23,7 +23,6 @@ const {
 const { getLeagueRank } = require('./riot.js');
 const twitchOpts = config.get('twitch');
 const delay = config.get('delay');
-const banList = config.get('banList');
 const {
   spotifyClientId,
   spotifyClientSecret,
@@ -42,12 +41,6 @@ const handleCommandsAndMessages = async (channel, displayName, message) => {
     ban(channel, displayName);
     twitch.say(channel, `${displayName}, Rickster is already famous, don't test me.`);
     return;
-  }
-
-  if (message == '!ban list') {
-    banList.forEach((botName, index) => {
-      setTimeout(() => { ban(channel, botName) }, index * 500);
-    });
   }
 
   if (message.startsWith('!rank')) {
