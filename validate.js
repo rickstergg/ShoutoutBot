@@ -320,8 +320,8 @@ const validateChampName = champName => {
   return champNames[champName] || bChampNames[champName];
 }
 
-const validateCooldown = cd => {
-  return !isNaN(cd) && cd >= 0 && cd <= 300;
+const validateAbilityHaste = ah => {
+  return !isNaN(ah) && ah >= 0 && ah <= 300;
 }
 
 const validateSkillName = skill => {
@@ -333,5 +333,5 @@ module.exports = {
   bChampNames,
   validateChampName,
   validateSkillName,
-  validateCooldown,
+  validateAbilityHaste,
 }

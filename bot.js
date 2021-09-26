@@ -1,11 +1,8 @@
 const tmi = require('tmi.js');
 const config = require('config');
-const bent = require('bent');
-const getJSON = bent('json');
 
 const {
   formatLeagueRank,
-  getCooldownPercentage,
   greetVIP,
   greetStreamer,
   isStreamer,
@@ -13,14 +10,10 @@ const {
 } = require('./utils.js');
 
 const {
-  champNames,
-  bChampNames,
-  validateChampName,
-  validateCooldown,
-  validateSkillName
-} = require('./validate.js');
+  getLeagueRank,
+  getCooldowns,
+} = require('./league.js');
 
-const { getLeagueRank } = require('./riot.js');
 const twitchOpts = config.get('twitch');
 const delay = config.get('delay');
 const {
@@ -44,44 +37,15 @@ const handleCommandsAndMessages = async (channel, displayName, message) => {
   }
 
   if (message.startsWith('!rank')) {
-    const summonerName = message.substr(6);
-    getLeagueRank(summonerName)
+    getLeagueRank(message)
       .then(solo => twitch.say(channel, formatLeagueRank(solo), delay))
-      .catch(r => twitch.say(channel, `The summoner '${summonerName}' is not ranked for solo/duo!`, delay));
+      .catch(err => twitch.say(channel, `The summoner '${summonerName}' is not ranked for solo/duo!`, delay));
   }
 
-  if (message.includes('!cd')) {
-    const [champName, skillName, cooldown] = message.split(' ').slice(1);
-
-    if (!validateChampName(champName)) {
-      twitch.say(channel, `Cannot find champ name: ${champName}`, delay);
-      return;
-    }
-
-    if (!validateSkillName(skillName)) {
-      twitch.say(channel, `Skillname must be 'q', 'w', 'e', or 'r', instead of '${skillName}'.`, delay);
-      return;
-    }
-
-    if (cooldown && !validateCooldown(cooldown)) {
-      twitch.say(channel, `Cooldown must be in the form of ability haste, 0 <= num <= 300`, delay);
-      return;
-    }
-
-    const realChampName = champNames[champName] || bChampNames[champName];
-    const versions = await getJSON('https://ddragon.leagueoflegends.com/api/versions.json');
-    const url = `http://ddragon.leagueoflegends.com/cdn/${versions[0]}/data/en_US/champion/${realChampName}.json`;
-    const champ = await getJSON(url);
-    const spells = champ['data'][realChampName]['spells'];
-    const spellCooldown = spells.find(skill => skill['id'] == `${realChampName}${skillName.toUpperCase()}`)['cooldown'];
-
-    if (cooldown) {
-      const percentage = Math.floor(getCooldownPercentage(cooldown)) / 100;
-      const cooldownsWithReduction = spellCooldown.map(cd => parseFloat((cd * (1 - percentage)).toFixed(1)).toString()).join(', ');
-      twitch.say(channel, `${realChampName} ${skillName.toUpperCase()}: ${cooldownsWithReduction}`, delay);
-    } else {
-      twitch.say(channel, `${realChampName} ${skillName.toUpperCase()}: ${spellCooldown.join(', ')}`, delay);
-    }
+  if (message.startsWith('!cd')) {
+    getCooldowns(message)
+      .then(cooldowns => twitch.say(channel, cooldowns, delay))
+      .catch(err => twitch.say(channel, err, delay));
   }
 }
 

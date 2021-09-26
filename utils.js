@@ -14,9 +14,14 @@ const getCooldownPercentage = cooldown => {
   return (1 - (1 / (1 + (cooldown / 100)))) * 100;
 };
 
+const getVersionsUrl = () => 'https://ddragon.leagueoflegends.com/api/versions.json';
+const getChampUrl = (version, champ) => `http://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion/${champ}.json`;
+
 module.exports = {
   formatLeagueRank,
   getCooldownPercentage,
+  getChampUrl,
+  getVersionsUrl,
   greetVIP,
   greetStreamer,
   isStreamer,
