@@ -39,7 +39,7 @@ const timeout = (channel, name, duration) => {
   twitch.say(channel, `/timeout ${name} ${duration}`);
 }
 
-const handleCommandsAndMessages = async (channel, displayName, message) => {
+const handleCommandsAndMessages = async (channel, displayName, message, broadcaster) => {
   if (message == 'Wanna become famous? Buy followers, primes and viewers on bigfollows . com !') {
     ban(channel, displayName);
     twitch.say(channel, `${displayName}, Rickster is already famous, don't test me.`);
@@ -47,6 +47,11 @@ const handleCommandsAndMessages = async (channel, displayName, message) => {
   }
 
   if (message.startsWith('!thanos')) {
+    if (!broadcaster) {
+      twitch.say(channel, `Sorry, only Thanos can snap the fingers. ;)`);
+      return;
+    }
+
     thanos(message, Object.keys(viewers))
       .then(({ viewers, duration }) => viewers.map(viewer => timeout(channel, viewer, duration)))
       .catch(err => twitch.say(channel, err, delay));
@@ -98,8 +103,10 @@ const onMessageHandler = (channel, context, message, self) => {
     'user-id': userId,
   } = context;
 
+  const broadcaster = badges ? badges.broadcaster : null;
+
   handleViewerList(username);
-  handleCommandsAndMessages(channel, displayName, message);
+  handleCommandsAndMessages(channel, displayName, message, broadcaster);
   handleShoutouts(channel, username, displayName);
 }
 
