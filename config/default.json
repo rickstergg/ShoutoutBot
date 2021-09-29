@@ -9,6 +9,12 @@
     "spotifyClientId": "",
     "spotifyClientSecret": ""
   },
+  "thanos": {
+    "exempt": [
+      "viewer1",
+      "viewer2"
+    ]
+  },
   "twitch": {
     "options": {
       "debug": true,
@@ -30,6 +36,8 @@
     "vip1"
   ],
   "streamers": [
-    "streamer1"
+    "streamer1",
+    "streamer2",
+    "streamer3"
   ]
 }
