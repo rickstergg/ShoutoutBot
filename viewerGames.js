@@ -1,6 +1,10 @@
+
 const config = require('config');
 const thanosGame = config.get('thanos');
 const { exempt } = thanosGame;
+
+const twitch = config.get('twitch');
+const botName = twitch.identity.username;
 
 const { getRandomElements, arraySubtract } = require('./utils.js');
 
@@ -19,8 +23,12 @@ const thanos = (message, viewerList) => {
     return Promise.reject(`More timeouts requested than there are viewers to timeout!`);
   }
 
-  const eligibleViewers = arraySubtract(viewerList, exempt);
+  const eligibleViewers = arraySubtract(viewerList, exempt + [botName]);
   const viewers = getRandomElements(eligibleViewers, numViewers);
+
+  if (!viewers.length) {
+    return Promise.reject(`Nobody eligible to timeout!`);
+  }
 
   return Promise.resolve({
     viewers,
