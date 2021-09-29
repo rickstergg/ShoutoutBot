@@ -2,6 +2,7 @@ const config = require('config');
 const streamers = config.get('streamers');
 const vips = config.get('vips');
 
+const arraySubtract = (array1, array2) => array1.filter(element => !array2.includes(element));
 const greetVIP = (username, displayName) => `HI BEEB!`;
 const greetStreamer = (username, displayName) => `!so ${displayName}`;
 const isVIP = username => vips.includes(username);
@@ -26,6 +27,7 @@ const getRandomElements = (arr, n) => {
 }
 
 module.exports = {
+  arraySubtract,
   formatLeagueRank,
   getCooldownPercentage,
   getChampUrl,
