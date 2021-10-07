@@ -42,7 +42,7 @@ const timeout = (channel, name, duration) => {
 const handleCommandsAndMessages = async (channel, displayName, message, broadcaster) => {
   if (message == 'Wanna become famous? Buy followers, primes and viewers on bigfollows . com !') {
     ban(channel, displayName);
-    twitch.say(channel, `${displayName}, Rickster is already famous, don't test me.`);
+    twitch.say(channel, `${displayName}, don't test me - Rick already did.`);
     return;
   }
 
