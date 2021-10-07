@@ -26,12 +26,17 @@ const getRandomElements = (arr, n) => {
   return result;
 }
 
+const getRandomInt = max => {
+  return Math.ceil(Math.random() * max);
+}
+
 module.exports = {
   arraySubtract,
   formatLeagueRank,
   getCooldownPercentage,
   getChampUrl,
   getRandomElements,
+  getRandomInt,
   getVersionsUrl,
   greetVIP,
   greetStreamer,
