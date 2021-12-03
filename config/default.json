@@ -5,10 +5,6 @@
     "region": "",
     "defaultSummonerName": ""
   },
-  "spotify": {
-    "spotifyClientId": "",
-    "spotifyClientSecret": ""
-  },
   "thanos": {
     "exempt": [
       "viewer1",
@@ -32,9 +28,6 @@
       "your channel"
     ]
   },
-  "vips": [
-    "vip1"
-  ],
   "streamers": [
     "streamer1",
     "streamer2",
