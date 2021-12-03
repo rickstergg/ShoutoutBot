@@ -29,21 +29,56 @@ const {
 
 const alreadyShoutted = new Set();
 
-const viewers = {};
+let viewers = {};
+let players = {};
+let joinable = false;
 
-const ban = (channel, name) => {
-  twitch.say(channel, `/ban ${name}`);
+const listenForJoins = channel => {
+  players = {};
+  joinable = true;
+
+  return new Promise(resolve => {
+    joinable = true;
+    setTimeout(() => {
+      joinable = false;
+      twitch.say(channel, `The joining phase is now closed. ${Object.keys(players).length} players yolo-ing.`);
+      resolve(players);
+    }, 10000);
+  });
 }
 
-const timeout = (channel, name, duration) => {
-  twitch.say(channel, `/timeout ${name} ${duration}`);
+const handleJoins = async (channel, displayName, message) => {
+  if (message == '!join' && joinable) {
+    if (players[displayName]) {
+      console.log(displayName, 'already joined game!');
+    } else {
+      players[displayName] = true;
+      console.log(displayName, 'joined game');
+    }
+  }
+
+  if (message == '!leave' && joinable) {
+    console.log(displayName, 'left game!');
+    delete players[displayName];
+  }
+}
+
+const handleBigFollows = async (channel, displayName, message) => {
+  if (message == 'Wanna become famous? Buy followers, primes and viewers on bigfollows . com !') {
+    twitch.say(channel, `/ban ${displayName}`);
+    twitch.say(channel, `${displayName}, don't test me - Rick already did.`);
+  }
 }
 
 const handleCommandsAndMessages = async (channel, displayName, message, broadcaster) => {
-  if (message == 'Wanna become famous? Buy followers, primes and viewers on bigfollows . com !') {
-    ban(channel, displayName);
-    twitch.say(channel, `${displayName}, don't test me - Rick already did.`);
-    return;
+  if (message == '!rlgl') {
+    if (!broadcaster) {
+      twitch.say(channel, `Sorry, only the Front Man can start the game. ;)`);
+      return;
+    }
+
+    listenForJoins(channel)
+      .then(playerList => console.log(playerList));
   }
 
   if (message.startsWith('!thanos')) {
@@ -53,7 +88,7 @@ const handleCommandsAndMessages = async (channel, displayName, message, broadcas
     }
 
     thanos(message, Object.keys(viewers))
-      .then(({ viewers, duration }) => viewers.map(viewer => timeout(channel, viewer, duration)))
+      .then(({ viewers, duration }) => viewers.map(viewer => twitch.say(channel, `/timeout ${viewer} ${duration}`)))
       .catch(err => twitch.say(channel, err, delay));
   }
 
@@ -80,13 +115,13 @@ const handleShoutouts = (channel, username, displayName) => {
   if (alreadyShoutted.has(username)) { return; }
   if (isStreamer(username)) { setTimeout(() => twitch.say(channel, greetStreamer(username, displayName)), delay); }
   if (isVIP(username)) { setTimeout(() => twitch.say(channel, greetVIP(username, displayName)), delay); }
-  console.log("=== SAW ", username, displayName, " ===");
+  console.log("=== SAW", username, displayName, "===");
   alreadyShoutted.add(username);
 }
 
 const onRaidHandler = (channel, username, viewers) => {
   console.log(`=== RAID for ${viewers} viewers from ${username} ===`);
-  setTimeout(() => twitch.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD! Welcome to the mind palace, raiders! Enjoy ya stay bb <3`, delay));
+  setTimeout(() => twitch.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD!`, delay));
   setTimeout(() => twitch.say(channel, `!so ${username}`, delay * 2));
   alreadyShoutted.add(username);
 }
@@ -106,6 +141,8 @@ const onMessageHandler = (channel, context, message, self) => {
   const broadcaster = badges ? badges.broadcaster : null;
 
   handleViewerList(username);
+  handleBigFollows(channel, displayName, message);
+  handleJoins(channel, displayName, message);
   handleCommandsAndMessages(channel, displayName, message, broadcaster);
   handleShoutouts(channel, username, displayName);
 }
