@@ -22,11 +22,6 @@ const twitchOpts = config.get('twitch');
 const twitch = new tmi.client(twitchOpts);
 
 const delay = config.get('delay');
-const {
-  spotifyClientId,
-  spotifyClientSecret,
-} = config.get('spotify');
-
 const alreadyShoutted = new Set();
 
 let viewers = {};
@@ -120,13 +115,6 @@ const handleShoutouts = (channel, username, displayName) => {
   alreadyShoutted.add(username);
 }
 
-const onRaidHandler = (channel, username, viewers) => {
-  console.log(`=== RAID for ${viewers} viewers from ${username} ===`);
-  setTimeout(() => twitch.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD!`, delay));
-  setTimeout(() => twitch.say(channel, `!so ${username}`, delay * 2));
-  alreadyShoutted.add(username);
-}
-
 const onMessageHandler = (channel, context, message, self) => {
   if (self) { return; }
 
@@ -148,7 +136,20 @@ const onMessageHandler = (channel, context, message, self) => {
   handleShoutouts(channel, username, displayName);
 }
 
-const onConnectedHandler = (addr, port) => console.log(`* Connected to ${addr}:${port}`);
+const onRaidHandler = (channel, username, viewers) => {
+  console.log(`=== RAID for ${viewers} viewers from ${username} ===`);
+  setTimeout(() => twitch.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD!`, delay));
+  setTimeout(() => twitch.say(channel, `!so ${username}`, delay * 2));
+  alreadyShoutted.add(username);
+}
+
+// Only happens if you are logged in / authed as the broadcaster
+const onHostHandler = (channel, username, viewers, autohost) => {
+  console.log(`=== HOST for ${viewers} viewers from ${username} ===`);
+  setTimeout(() => twitch.say(channel, `Thank you SO MUCH for the host, ${username}!`, delay));
+  setTimeout(() => twitch.say(channel, `!so ${username}`, delay * 2));
+  alreadyShoutted.add(username);
+}
 
 const onJoinHandler = (channel, username, self) => {
   viewers[username] = true;
@@ -160,6 +161,8 @@ const onLeaveHandler = (channel, username, self) => {
   // console.log(username, 'has left the channel');
 }
 
+const onConnectedHandler = (addr, port) => console.log(`* Connected to ${addr}:${port}`);
+
 // More kinds of events can be implemented here!
 // https://github.com/tmijs/docs/blob/gh-pages/_posts/v1.4.2/2019-03-03-Events.md
 twitch.on('connected', onConnectedHandler);
@@ -167,5 +170,5 @@ twitch.on('part', onLeaveHandler);
 twitch.on('join', onJoinHandler);
 twitch.on('raided', onRaidHandler);
 twitch.on('message', onMessageHandler);
-
+twitch.on('hosted', onHostHandler);
 twitch.connect();
