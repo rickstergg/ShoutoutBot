@@ -63,8 +63,9 @@ const handleJoins = async (channel, displayName, message) => {
   }
 }
 
-const handleBigFollows = async (channel, displayName, message) => {
-  if (message == 'Wanna become famous? Buy followers, primes and viewers on bigfollows . com !') {
+const handleBigFollows = (channel, displayName, message) => {
+  const msg = message.toLowerCase();
+  if (msg.includes('famous') && msg.includes('buy') && msg.includes('followers') && msg.includes('bigfollows')) {
     twitch.say(channel, `/ban ${displayName}`);
     twitch.say(channel, `${displayName}, don't test me - Rick already did.`);
   }
@@ -159,6 +160,8 @@ const onLeaveHandler = (channel, username, self) => {
   // console.log(username, 'has left the channel');
 }
 
+// More kinds of events can be implemented here!
+// https://github.com/tmijs/docs/blob/gh-pages/_posts/v1.4.2/2019-03-03-Events.md
 twitch.on('connected', onConnectedHandler);
 twitch.on('part', onLeaveHandler);
 twitch.on('join', onJoinHandler);
