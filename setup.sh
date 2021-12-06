@@ -25,9 +25,6 @@ echo "==> Installing node version manager (NVM)."
 # Install nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 
-# Make nvm command available to terminal
-source ~/.nvm/nvm.sh
-
 echo "==> Ensuring .bash_profile exists and is writable"
 touch ~/.bash_profile
 
@@ -36,6 +33,9 @@ echo "" >> ~/.bash_profile
 echo "export NVM_DIR=\"\$HOME/.nvm\"" >> ~/.bash_profile
 echo "[ -s \"\$NVM_DIR/nvm.sh\" ] && \. \"\$NVM_DIR/nvm.sh\" # This loads nvm" >> ~/.bash_profile
 echo "[ -s \"\$NVM_DIR/bash_completion\" ] && \. \"\$NVM_DIR/bash_completion\" # This loads nvm bash_completion" >> ~/.bash_profile
+
+# Make nvm command available to terminal
+source ~/.nvm/nvm.sh
 
 echo "==> Installing node js long-term-support (LTS)"
 nvm install --lts
@@ -58,13 +58,14 @@ nvm ls
 nvm cache clear
 
 echo "==> Creating SSH Key"
-ssh-keygen -t rsa -N "" -f id_rsa -C "$email"
+mkdir ~/.ssh
+ssh-keygen -t ed25519 -N "" -f id_ed25519 -C "$email"
 
 echo "==> Starting SSH agent"
 eval "$(ssh-agent -s)"
 
 echo "==> Adding SSH key to agent"
-ssh-add ~/.ssh/id_rsa
+ssh-add ~/.ssh/id_ed25519
 
 echo "==> Key copied to clipboard."
 clip < ~/.ssh/id_ed25519.pub
@@ -90,8 +91,5 @@ git clone git@github.com:rickstergg/CypherCam.git .
 echo "==> Running NPM install"
 npm install
 
-echo "==> You should be good, run 'node bot.js' to start CypherCam"
-
-
-
-
+echo "==> Go back to the google doc to figure out configuration"
+echo "==> After configuration, you should be good to go!"
