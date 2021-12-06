@@ -20,10 +20,11 @@ The following features require a Riot Games API Key:
 
 # How do I run this?
 
-Note: If you're not familiar with technicals, check out the google doc here on how to get started:
+Note: If you're not familiar with technicals, check out the google doc here on how to get started and read NO FURTHER!
+This document assumes you're coming from a machine with no pre-reqs installed, and know nothing about programming.
 https://docs.google.com/document/d/1QzL2FX_uW0aQ-m5wpfhkuVxlozXH44dtR5pezXoGEP4/edit?usp=sharing
 
-If you are familiar with setting up and installing javascript / Node repos, keep reading!
+If you ARE familiar with setting up and installing javascript / Node repos, keep going!
 
 1. Pre-requisites and Installation
   - Install the latest LTS of Node.
