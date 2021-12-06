@@ -91,5 +91,5 @@ git clone git@github.com:rickstergg/CypherCam.git .
 echo "==> Running NPM install"
 npm install
 
-echo "==> Go back to the google doc to figure out configuration"
+echo "==> Go back to the google doc to figure out configuration."
 echo "==> After configuration, you should be good to go!"
