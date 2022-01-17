@@ -3,27 +3,20 @@ set -e
 
 # Pulled from https://gist.github.com/chrisidakwo/5f228cb0883efdcfae1a880f80b9744b, THANK YOU chrisidakwo!
 
-echo "Hello bb."
-echo "What is your name? (doesnt have to be your real name), then hit [ENTER]."
+echo "Enter your name. (Doesnt have to be your real name), then hit [ENTER]."
 read name
 
 echo "Enter your email you plan to use for github, then hit [ENTER]."
 read email
 
-echo "==> Removing any previous NVM directory if already installed."
-
 echo "==> Ensuring .bash_profile exists and is writable"
 touch ~/.bash_profile
 
-# Removed if already installed
+echo "==> Removing any previous NVM directory if already installed."
 rm -rf ~/.nvm
-
-# Unset exported variable
 export NVM_DIR=
 
 echo "==> Installing node version manager (NVM)."
-
-# Install nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 
 echo "==> Adding NVM to ~/.bash_profile"
@@ -56,8 +49,7 @@ nvm ls
 nvm cache clear
 
 echo "==> Creating SSH Key"
-mkdir ~/.ssh
-ssh-keygen -t ed25519 -N "" -f id_ed25519 -C "$email"
+echo -e "\n" | ssh-keygen -t ed25519 -N "" -C "$email"
 
 echo "==> Starting SSH agent"
 eval "$(ssh-agent -s)"
