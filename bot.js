@@ -60,9 +60,39 @@ const handleJoins = async (channel, displayName, message) => {
 
 const handleBigFollows = (channel, displayName, message) => {
   const msg = message.toLowerCase();
-  if (msg.includes('famous') && msg.includes('buy') && msg.includes('followers') && msg.includes('bigfollows')) {
+  let count = 0;
+
+  if (msg.includes('famous')) {
+    count += 1;
+  }
+
+  if (msg.includes('buy')) {
+    count += 1;
+  }
+
+  if (msg.includes('followers')) {
+    count += 1;
+  }
+
+  if (msg.includes('primes')) {
+    count += 1;
+  }
+
+  if (msg.includes('viewers')) {
+    count += 1;
+  }
+
+  if (msg.includes('vk.cc') || msg.includes('u.to/') || msg.includes('j.mp/')) {
+    count += 2;
+  }
+
+  if (msg.includes('bigfollows') || msg.includes('bigf')) {
+    count += 2;
+  }
+
+  if (count > 3) {
     twitch.say(channel, `/ban ${displayName}`);
-    twitch.say(channel, `${displayName}, don't test me - Rick already did.`);
+    twitch.say(channel, `${displayName}, don't test me - Rick already did. ${count} pts.`);
   }
 }
 
