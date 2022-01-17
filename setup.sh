@@ -3,8 +3,6 @@ set -e
 
 # Pulled from https://gist.github.com/chrisidakwo/5f228cb0883efdcfae1a880f80b9744b, THANK YOU chrisidakwo!
 
-# Run this script like - bash script-name.sh
-
 echo "Hello bb."
 echo "What is your name? (doesnt have to be your real name), then hit [ENTER]."
 read name
@@ -13,6 +11,9 @@ echo "Enter your email you plan to use for github, then hit [ENTER]."
 read email
 
 echo "==> Removing any previous NVM directory if already installed."
+
+echo "==> Ensuring .bash_profile exists and is writable"
+touch ~/.bash_profile
 
 # Removed if already installed
 rm -rf ~/.nvm
@@ -24,9 +25,6 @@ echo "==> Installing node version manager (NVM)."
 
 # Install nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-
-echo "==> Ensuring .bash_profile exists and is writable"
-touch ~/.bash_profile
 
 echo "==> Adding NVM to ~/.bash_profile"
 echo "" >> ~/.bash_profile
