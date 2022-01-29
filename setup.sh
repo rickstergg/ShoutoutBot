@@ -4,10 +4,10 @@ set -e
 # Pulled from https://gist.github.com/chrisidakwo/5f228cb0883efdcfae1a880f80b9744b, THANK YOU chrisidakwo!
 
 echo "Enter your name. (Doesnt have to be your real name), then hit [ENTER]."
-read name
+read name < /dev/tty
 
 echo "Enter your email you plan to use for github, then hit [ENTER]."
-read email
+read email < /dev/tty
 
 echo "==> Ensuring .bash_profile exists and is writable"
 touch ~/.bash_profile
@@ -16,16 +16,17 @@ echo "==> Removing any previous NVM directory if already installed."
 rm -rf ~/.nvm
 export NVM_DIR=
 
-echo "==> Installing node version manager (NVM)."
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-
 echo "==> Adding NVM to ~/.bash_profile"
 echo "" >> ~/.bash_profile
 echo "export NVM_DIR=\"\$HOME/.nvm\"" >> ~/.bash_profile
 echo "[ -s \"\$NVM_DIR/nvm.sh\" ] && \. \"\$NVM_DIR/nvm.sh\" # This loads nvm" >> ~/.bash_profile
 echo "[ -s \"\$NVM_DIR/bash_completion\" ] && \. \"\$NVM_DIR/bash_completion\" # This loads nvm bash_completion" >> ~/.bash_profile
 
+echo "==> Installing node version manager (NVM)."
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+
 # Make nvm command available to terminal
+source ~/.bash_profile
 source ~/.nvm/nvm.sh
 
 echo "==> Installing node js long-term-support (LTS)"
@@ -34,7 +35,7 @@ nvm install --lts
 echo "==> If node installation fails fails, go to https://nodejs.org/en/download/ and select the right installer."
 echo "==> After installing node, close and reopen Git Bash once again!"
 
-echo "==> Checking for versions"
+echo "==> Checking for versions.."
 nvm --version
 node --version
 npm --version
