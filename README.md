@@ -1,12 +1,12 @@
 # What is this?
 
-This is a Twitch Chatbot built on top of `tmi.js` and can be configured via the `default.json` file. Pull it locally, populate the settings with your own configuration, add in some API keys, and you got a bot that can do some serious werk for your own channels or channels you mod for!
+This is a Twitch Chatbot built on top of `tmi.js` and can be configured via the `default.json` file. Pull it locally, populate the settings with your own configuration, add in some optional API keys, and you got a bot that can do some serious werk for your own channels or channels you mod for!
 
 # Features
 
 * Automatically shoutsout streamers and friends of the channel when they type in chat. Managed manually by a list of streamers of your choice!
-* Automatically shoutsout streamers who raid you!
-* Automatically bans any account that says a few words in the legendary big follows sentence. They keep changing how they say it
+* Automatically shoutsout streamers who raid you! Customize the message at it contains profanity. ;3
+* Automatically bans any account that says a few words in the legendary big follows sentence. They keep changing how they say it, but we just update it to match.
 * Customizable delay duration so it's instantaneous or - on the other hand - doesn't seem robotic.
 * Also comes with some fun games like !thanos, which times out random people in the channel for a certain duration of time.
 
@@ -18,13 +18,9 @@ The following features require a Riot Games API Key:
   * e.g. `!cd shen e 100`
   * Returns `Shen E: 9, 8, 7, 6, 5`
 
+I'll include a check for these commands in the future, but if you don't have a riot API key, make sure you comment these commands out, cause it'll likely crash the program if you're live!
+
 # How do I run this?
-
-Note: If you're not familiar with technicals, check out the google doc here on how to get started and read NO FURTHER!
-This document assumes you're coming from a machine with no pre-reqs installed, and know nothing about programming.
-https://docs.google.com/document/d/1QzL2FX_uW0aQ-m5wpfhkuVxlozXH44dtR5pezXoGEP4/edit?usp=sharing
-
-If you ARE familiar with setting up and installing javascript / Node repos, keep going!
 
 1. Pre-requisites and Installation
   - Install the latest LTS of Node.
@@ -65,7 +61,8 @@ If you ARE familiar with setting up and installing javascript / Node repos, keep
     - `!rank` or `!rank SummonerName`
 
 * Future Features
-  - Anti hate raid detection
+  - Stats counter. Looking to thank your viewers / resubs / gifted? Type !stats at the end of your stream to get a list of all the things that happened!! All you'll need to do are replace the usernames with @'s in discord and whatnot.
+  - Anti hate raid detection (deprioritized because I have extra security enabled on my channel)
   - Better handling of VIPs (currently just shouts out my gf LOL)
   - Integrate better with Twitch API to look up peoples previous streams and see what they were playing etc.
   - Spotify song integration, list the current song with !song or something.
