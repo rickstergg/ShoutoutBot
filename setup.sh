@@ -9,12 +9,41 @@ read name < /dev/tty
 echo "Enter your email you plan to use for github, then hit [ENTER]."
 read email < /dev/tty
 
+## This part sets up the SSH key for github.
+echo "==> Creating SSH Key"
+echo -e "\n" | ssh-keygen -t ed25519 -N "" -C "$email"
+
+echo "==> Starting SSH agent"
+eval "$(ssh-agent -s)"
+
+echo "==> Adding SSH key to agent"
+ssh-add ~/.ssh/id_ed25519
+
+echo "==> Key copied to clipboard."
+clip < ~/.ssh/id_ed25519.pub
+
+echo "==> Go to https://github.com/settings/ssh/new"
+echo "==> Enter anything for the Title of the key"
+echo "==> Go to the key textbox, and press ctrl+v to paste, then click 'Add SSH Key'"
+echo "==> You should see the new key you made at https://github.com/settings/keys"
+echo "==> This script will now pause to give you time to add your key to Github"
+read -p "Press [ENTER] key after your key is added to Github..."
+
+## Use the new Github SSH keys to check out the repository
+echo "==> Making CypherCam directory"
+mkdir ~/CypherCam
+cd ~/CypherCam
+
+echo "==> Updating Git config"
+git config --global user.name "$name"
+git config --global user.email "$email"
+
+echo "==> Cloning the CypherCam repository"
+git clone git@github.com:rickstergg/CypherCam.git .
+
+## Setup NPM to be able to run NPM install
 echo "==> Ensuring .bash_profile exists and is writable"
 touch ~/.bash_profile
-
-echo "==> Removing any previous NVM directory if already installed."
-rm -rf ~/.nvm
-export NVM_DIR=
 
 echo "==> Adding NVM to ~/.bash_profile"
 echo "" >> ~/.bash_profile
@@ -35,52 +64,10 @@ nvm install --lts
 echo "==> If node installation fails fails, go to https://nodejs.org/en/download/ and select the right installer."
 echo "==> After installing node, close and reopen Git Bash once again!"
 
-echo "==> Checking for versions.."
-nvm --version
-node --version
-npm --version
-
-echo "==> Print binary paths"
-which nvm
-which npm
-which node
-
-echo "==> List installed node versions"
-nvm ls
-nvm cache clear
-
-echo "==> Creating SSH Key"
-echo -e "\n" | ssh-keygen -t ed25519 -N "" -C "$email"
-
-echo "==> Starting SSH agent"
-eval "$(ssh-agent -s)"
-
-echo "==> Adding SSH key to agent"
-ssh-add ~/.ssh/id_ed25519
-
-echo "==> Key copied to clipboard."
-clip < ~/.ssh/id_ed25519.pub
-
-echo "==> Go to https://github.com/settings/ssh/new"
-echo "==> Enter anything for the Title of the key"
-echo "==> Go to the key textbox, and press ctrl+v to paste, then click Add SSH Key"
-echo "==> You should see the new key you made at https://github.com/settings/keys"
-echo "==> The script will now pause to give you time to add your key to Github"
-read -p "Press [Enter] key after your key is added to Github..."
-
-echo "==> Making CypherCam directory"
-mkdir ~/CypherCam
-cd ~/CypherCam
-
-echo "==> Updating Git config"
-git config --global user.name "$name"
-git config --global user.email "$email"
-
-echo "==> Cloning the CypherCam repository"
-git clone git@github.com:rickstergg/CypherCam.git .
-
 echo "==> Running NPM install"
 npm install
 
+echo "==> If 'npm install' fails, try reopening a new terminal, navigating to ~/CypherCam, and running 'npm install' again."
 echo "==> Go back to the google doc to figure out configuration."
 echo "==> After configuration, you should be good to go!"
+read -p "Press [ENTER] key to end the script.."
