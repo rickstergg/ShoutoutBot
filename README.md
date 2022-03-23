@@ -7,18 +7,21 @@ This is a Twitch Chatbot built on top of `tmi.js` and can be configured via the 
 * Automatically shoutsout streamers and friends of the channel when they type in chat. Managed manually by a list of streamers of your choice!
 * Automatically shoutsout streamers who raid you! Customize the message at it contains profanity. ;3
 * Automatically bans any account that says a few words in the legendary big follows sentence. They keep changing how they say it, but we just update it to match.
+
+![cyphercam in action](https://user-images.githubusercontent.com/13734404/159748359-c25b2a27-9563-4d1f-ac3e-2ea716c8a6eb.PNG)
 * Customizable delay duration so it's instantaneous or - on the other hand - doesn't seem robotic.
 * Also comes with some fun games like !thanos, which times out random people in the channel for a certain duration of time.
 
+
 The following features require a Riot Games API Key:
+
+Note: I'll include a check for these commands in the future, but if you don't have a riot API key, make sure you comment these commands out, cause it'll likely crash the program if you're live!
 
 * Responds to `!rank` commands, particularly League of Legends for now.
   * e.g. `!rank` or `!rank summoner name`
 * Grabs LoL champion spell cooldowns and accepts ability haste as a parameter (no more mobafire / leaguepedia lookups)!
   * e.g. `!cd shen e 100`
   * Returns `Shen E: 9, 8, 7, 6, 5`
-
-I'll include a check for these commands in the future, but if you don't have a riot API key, make sure you comment these commands out, cause it'll likely crash the program if you're live!
 
 # How do I run this?
 
