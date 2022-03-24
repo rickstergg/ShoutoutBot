@@ -58,6 +58,28 @@ const handleJoins = async (channel, displayName, message) => {
   }
 }
 
+const handleDogeHype = (channel, displayName, message) => {
+  const msg = message.toLowerCase();
+  let count = 0;
+
+  if (msg.includes('dogehype')) {
+    count += 1;
+  }
+
+  if (msg.includes('.c0m') || msg.includes('.com')) {
+    count += 1;
+  }
+
+  if (msg.includes('twitch partnership')) {
+    count += 1;
+  }
+
+  if (count > 1) {
+    twitch.say(channel, `/ban ${displayName}`);
+    twitch.say(channel, `${displayName}, nahhh bb dogehype has no home here.`);
+  }
+}
+
 const handleBigFollows = (channel, displayName, message) => {
   const msg = message.toLowerCase();
   let count = 0;
@@ -161,6 +183,7 @@ const onMessageHandler = (channel, context, message, self) => {
 
   handleViewerList(username);
   handleBigFollows(channel, displayName, message);
+  handleDogeHype(channel, displayName, message);
   handleJoins(channel, displayName, message);
   handleCommandsAndMessages(channel, displayName, message, broadcaster);
   handleShoutouts(channel, username, displayName);
@@ -191,6 +214,11 @@ const onLeaveHandler = (channel, username, self) => {
   // console.log(username, 'has left the channel');
 }
 
+const onResubHandler = (channel, username, months, message, userstate, methods) => {
+  let cumulativeMonths = ~~userstate["msg-param-cumulative-months"];
+  setTimeout(() => twitch.say(channel, `Thank you ${username} for resubbing for ${cumulativeMonths} months! Welcome back to the subdooboos!`, delay));
+}
+
 const onConnectedHandler = (addr, port) => console.log(`* Connected to ${addr}:${port}`);
 
 // More kinds of events can be implemented here!
@@ -201,4 +229,5 @@ twitch.on('join', onJoinHandler);
 twitch.on('raided', onRaidHandler);
 twitch.on('message', onMessageHandler);
 twitch.on('hosted', onHostHandler);
+twitch.on('resub', onResubHandler);
 twitch.connect();
