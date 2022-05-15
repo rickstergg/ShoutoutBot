@@ -1,5 +1,8 @@
 const tmi = require('tmi.js');
 const config = require('config');
+const axios = require("axios").default;
+const punnyCode = require("punycode");
+
 
 const {
   formatLeagueRank,
@@ -80,6 +83,13 @@ const handleDogeHype = (channel, displayName, message) => {
   }
 }
 
+// Fetch domain extensions to assist with check for big follows
+let domainExtensions = [];
+axios
+  .get("https://data.iana.org/TLD/tlds-alpha-by-domain.txt")
+  .then((response) => domainExtensions = response.data.trim().split("\n").slice(1) || [])
+  .catch((err) => console.log("Can't fetch domain extensions, defaulting to empty array.", err));
+
 const handleBigFollows = (channel, displayName, message) => {
   const msg = message.toLowerCase();
   let count = 0;
@@ -104,13 +114,8 @@ const handleBigFollows = (channel, displayName, message) => {
     count += 1;
   }
 
-  if (
-    // Check if they've written a message that contains a domain at the end of the message
-    msg.includes('vk.cc') ||
-    msg.includes('u.to/') ||
-    msg.includes('j.mp/') ||
-    msg.includes('mystrm') ||
-    msg.includes('.store')) {
+  const msgExtension = msg.split('. ').pop()
+  if (domainExtensions.includes(msgExtension.toUpperCase()) ) {
     count += 2;
   }
 
