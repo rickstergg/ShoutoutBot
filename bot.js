@@ -104,7 +104,13 @@ const handleBigFollows = (channel, displayName, message) => {
     count += 1;
   }
 
-  if (msg.includes('vk.cc') || msg.includes('u.to/') || msg.includes('j.mp/')) {
+  if (
+    // Check if they've written a message that contains a domain at the end of the message
+    msg.includes('vk.cc') ||
+    msg.includes('u.to/') ||
+    msg.includes('j.mp/') ||
+    msg.includes('mystrm') ||
+    msg.includes('.store')) {
     count += 2;
   }
 
@@ -216,7 +222,7 @@ const onLeaveHandler = (channel, username, self) => {
 
 const onResubHandler = (channel, username, months, message, userstate, methods) => {
   let cumulativeMonths = ~~userstate["msg-param-cumulative-months"];
-  setTimeout(() => twitch.say(channel, `Thank you ${username} for resubbing for ${cumulativeMonths} months! Welcome back to the subdooboos!`, delay));
+  setTimeout(() => twitch.say(channel, `Thank you ${username} for resubbing for ${cumulativeMonths} months! Welcome back to the mind palace!!`, delay));
 }
 
 const onConnectedHandler = (addr, port) => console.log(`* Connected to ${addr}:${port}`);
