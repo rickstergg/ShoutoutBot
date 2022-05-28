@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.27.2",
     "bent": "^7.3.12",
     "config": "^3.3.6",
     "teemojs": "^1.8.0",
     "tmi.js": "^1.8.5"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
