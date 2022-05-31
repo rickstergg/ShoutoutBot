@@ -10,6 +10,7 @@ This is a Twitch Chatbot built on top of `tmi.js` and can be configured via the 
 
 ![cyphercam in action](https://user-images.githubusercontent.com/13734404/159748359-c25b2a27-9563-4d1f-ac3e-2ea716c8a6eb.PNG)
 * Customizable delay duration so it's instantaneous or - on the other hand - doesn't seem robotic.
+* Handles !raffle commands with a parameter for duration. e.g. !raffle 120 will create a raffle viewers can join using !join and it'll listen for 2 minutes! Spits out a list of players / potential winners for you to use in conjunction with https://wheelofnames.com/ or something similar.
 * Also comes with some fun games like !thanos, which times out random people in the channel for a certain duration of time.
 
 
@@ -65,7 +66,8 @@ Note: I'll include a check for these commands in the future, but if you don't ha
 
 * Future Features
   - Stats counter. Looking to thank your viewers / resubs / gifted? Type !stats at the end of your stream to get a list of all the things that happened!! All you'll need to do are replace the usernames with @'s in discord and whatnot.
-  - Anti hate raid detection (deprioritized because I have extra security enabled on my channel)
   - Better handling of VIPs (currently just shouts out my gf LOL)
   - Integrate better with Twitch API to look up peoples previous streams and see what they were playing etc.
+  - DEEZ NUTS a random word on stream
+  - Provide optional param for raffle to select a winner(s)
   - Spotify song integration, list the current song with !song or something.

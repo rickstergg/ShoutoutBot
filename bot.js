@@ -31,17 +31,26 @@ let viewers = {};
 let players = {};
 let joinable = false;
 
-const listenForJoins = channel => {
+const listenForJoins = (channel, message) => {
   players = {};
   joinable = true;
+
+  // NOTE: Assumes it's a one param command
+  const tokenized = message.split(' ');
+  const duration = tokenized.length > 1 ? tokenized[tokenized.length - 1] : 120;
+
+  setTimeout(() => {
+    twitch.say(channel, `Halfway till the raffle is closed! Get your '!join' in chat right NAO!`);
+  }, (duration / 2) * 1000);
 
   return new Promise(resolve => {
     joinable = true;
     setTimeout(() => {
       joinable = false;
+      console.log('=== LIST OF PLAYERS HERE ===');
       twitch.say(channel, `The joining phase is now closed. ${Object.keys(players).length} players yolo-ing.`);
       resolve(players);
-    }, 10000);
+    }, duration * 1000);
   });
 }
 
@@ -49,6 +58,7 @@ const handleJoins = async (channel, displayName, message) => {
   if (message == '!join' && joinable) {
     if (players[displayName]) {
       console.log(displayName, 'already joined game!');
+      twitch.say(channel, `${displayName}, you've already joined bb!`);
     } else {
       players[displayName] = true;
       console.log(displayName, 'joined game');
@@ -130,14 +140,18 @@ const handleBigFollows = (channel, displayName, message) => {
 }
 
 const handleCommandsAndMessages = async (channel, displayName, message, broadcaster) => {
-  if (message == '!rlgl') {
+  if (message.startsWith('!raffle')) {
     if (!broadcaster) {
-      twitch.say(channel, `Sorry, only the Front Man can start the game. ;)`);
+      twitch.say(channel, `Sorry, only the broadcaster can start the raffle. ;)`, delay);
       return;
     }
 
-    listenForJoins(channel)
-      .then(playerList => console.log(playerList));
+    twitch.say(channel, `▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬ PowerUpL HolidayPresent The raffle has BEGUN! HolidayPresent PowerUpR Type '!join' to get in on DEEZ NUTS. ▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬`, delay);
+    listenForJoins(channel, message)
+      .then(playerList => {
+        twitch.say(channel, 'The raffle is over!');
+        console.log(Object.keys(playerList).join('\r\n'));
+      });
   }
 
   if (message.startsWith('!thanos')) {
