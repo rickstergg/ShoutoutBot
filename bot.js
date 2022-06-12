@@ -1,8 +1,6 @@
 const tmi = require('tmi.js');
 const config = require('config');
 const axios = require("axios").default;
-const punnyCode = require("punycode");
-
 
 const {
   formatLeagueRank,
