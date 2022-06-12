@@ -1,14 +1,14 @@
 
-const config = require('config');
+import config from 'config';
 const thanosGame = config.get('thanos');
 const { exempt } = thanosGame;
 
 const twitch = config.get('twitch');
 const botName = twitch.identity.username;
 
-const { getRandomElements, arraySubtract } = require('./utils.js');
+import { getRandomElements, arraySubtract } from './utils.js';
 
-const thanos = (message, viewerList) => {
+export const thanos = (message, viewerList) => {
   const [numViewers, duration] = message.split(' ').slice(1);
 
   if (!numViewers || !duration) {
@@ -34,8 +34,4 @@ const thanos = (message, viewerList) => {
     viewers,
     duration,
   });
-}
-
-module.exports = {
-  thanos,
 }

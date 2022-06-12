@@ -1,28 +1,29 @@
-const config = require('config');
+import config from 'config';
 const {
   riotApiKey,
   region,
   defaultSummonerName,
 } = config.get('riot');
 
-const TeemoJS = require('teemojs');
+import TeemoJS from 'teemojs';
 const riotApi = TeemoJS(riotApiKey);
-const bent = require('bent');
+
+import bent from 'bent';
 const getJSON = bent('json');
 
-const {
+import {
   getCooldownPercentage,
   getVersionsUrl,
   getChampUrl,
-} = require('./utils.js');
+} from './utils.js';
 
-const {
+import {
   champNames,
   bChampNames,
   validateChampName,
   validateAbilityHaste,
   validateSkillName
-} = require('./validate.js');
+} from './validate.js';
 
 const skillMapper = {
   q: 0,
@@ -31,7 +32,7 @@ const skillMapper = {
   r: 3,
 };
 
-const getLeagueRank = (message) => {
+export const getLeagueRank = (message) => {
   const summonerName = message.substr(6);
   let name = summonerName || defaultSummonerName;
   return riotApi.get(region, 'summoner.getBySummonerName', name)
@@ -39,7 +40,7 @@ const getLeagueRank = (message) => {
                 .then(data => data.find(league => league.queueType == 'RANKED_SOLO_5x5'));
 }
 
-const getCooldowns = async (message) => {
+export const getCooldowns = async (message) => {
   const [champName, skillName, abilityHaste] = message.split(' ').slice(1);
 
   if (!champName) {
@@ -74,9 +75,4 @@ const getCooldowns = async (message) => {
     .toString())
     .join(', ');
   return `${spell['name']}: ${cooldowns}`;
-}
-
-module.exports = {
-  getCooldowns,
-  getLeagueRank,
 }

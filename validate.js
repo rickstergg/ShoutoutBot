@@ -1,4 +1,4 @@
-const champNames = {
+export const champNames = {
   aatrox: 'Aatrox',
   ahri: 'Ahri',
   akali: 'Akali',
@@ -157,7 +157,7 @@ const champNames = {
   zyra: 'Zyra',
 };
 
-const bChampNames = {
+export const bChampNames = {
   AAtrox: 'Aatrox',
   ahri: 'Ahri',
   akali: 'Akali',
@@ -316,22 +316,14 @@ const bChampNames = {
   zyra: 'Zyra',
 };
 
-const validateChampName = champName => {
+export const validateChampName = champName => {
   return champNames[champName] || bChampNames[champName];
 }
 
-const validateAbilityHaste = ah => {
+export const validateAbilityHaste = ah => {
   return !isNaN(ah) && ah >= 0 && ah <= 300;
 }
 
-const validateSkillName = skill => {
+export const validateSkillName = skill => {
   return ['q', 'w', 'e', 'r', 'Q', 'W', 'E', 'R'].includes(skill);
-}
-
-module.exports = {
-  champNames,
-  bChampNames,
-  validateChampName,
-  validateSkillName,
-  validateAbilityHaste,
 }

@@ -1,18 +1,18 @@
-const config = require('config');
+import config from 'config';
 const streamers = config.get('streamers');
 const vips = config.get('vips');
 
-const arraySubtract = (array1, array2) => array1.filter(element => !array2.includes(element));
-const greetVIP = (username, displayName) => `HI BEEB!`;
-const greetStreamer = (username, displayName) => `!so ${displayName}`;
-const isVIP = username => vips.includes(username);
-const isStreamer = username => streamers.includes(username);
-const formatLeagueRank = ({ tier, rank, leaguePoints, hotStreak }) => `${tier} ${rank} - ${leaguePoints} LP ${hotStreak ? '🔥' : ''}`;
-const getCooldownPercentage = cooldown => (1 - (1 / (1 + (cooldown / 100)))) * 100;
-const getVersionsUrl = () => 'https://ddragon.leagueoflegends.com/api/versions.json';
-const getChampUrl = (version, champ) => `http://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion/${champ}.json`;
+export const arraySubtract = (array1, array2) => array1.filter(element => !array2.includes(element));
+export const greetVIP = (username, displayName) => `HI BEEB!`;
+export const greetStreamer = (username, displayName) => `!so ${displayName}`;
+export const isVIP = username => vips.includes(username);
+export const isStreamer = username => streamers.includes(username);
+export const formatLeagueRank = ({ tier, rank, leaguePoints, hotStreak }) => `${tier} ${rank} - ${leaguePoints} LP ${hotStreak ? '🔥' : ''}`;
+export const getCooldownPercentage = cooldown => (1 - (1 / (1 + (cooldown / 100)))) * 100;
+export const getVersionsUrl = () => 'https://ddragon.leagueoflegends.com/api/versions.json';
+export const getChampUrl = (version, champ) => `http://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion/${champ}.json`;
 
-const getRandomElements = (arr, n) => {
+export const getRandomElements = (arr, n) => {
   var result = new Array(n),
       len = arr.length,
       taken = new Array(len);
@@ -26,20 +26,6 @@ const getRandomElements = (arr, n) => {
   return result;
 }
 
-const getRandomInt = max => {
+export const getRandomInt = max => {
   return Math.ceil(Math.random() * max);
-}
-
-module.exports = {
-  arraySubtract,
-  formatLeagueRank,
-  getCooldownPercentage,
-  getChampUrl,
-  getRandomElements,
-  getRandomInt,
-  getVersionsUrl,
-  greetVIP,
-  greetStreamer,
-  isStreamer,
-  isVIP,
 }

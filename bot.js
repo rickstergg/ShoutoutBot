@@ -1,23 +1,23 @@
-const tmi = require('tmi.js');
-const config = require('config');
-const axios = require("axios").default;
+import tmi from 'tmi.js';
+import config from 'config';
+import axios from 'axios';
 
-const {
+import {
   formatLeagueRank,
   greetVIP,
   greetStreamer,
   isStreamer,
   isVIP
-} = require('./utils.js');
+} from './utils.js';
 
-const {
+import {
   getLeagueRank,
   getCooldowns,
-} = require('./league.js');
+} from './league.js';
 
-const {
+import {
   thanos,
-} = require('./viewerGames.js');
+} from './viewerGames.js';
 
 const twitchOpts = config.get('twitch');
 const twitch = new tmi.client(twitchOpts);
