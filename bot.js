@@ -71,28 +71,6 @@ const handleJoins = async (channel, displayName, message) => {
   }
 }
 
-const handleDogeHype = (channel, displayName, message) => {
-  const msg = message.toLowerCase();
-  let count = 0;
-
-  if (msg.includes('dogehype')) {
-    count += 1;
-  }
-
-  if (msg.includes('.c0m') || msg.includes('.com')) {
-    count += 1;
-  }
-
-  if (msg.includes('twitch partnership')) {
-    count += 1;
-  }
-
-  if (count > 1) {
-    twitch.say(channel, `/ban ${displayName}`);
-    twitch.say(channel, `${displayName}, nahhh bb dogehype has no home here.`);
-  }
-}
-
 // Fetch domain extensions to assist with check for big follows
 let domainExtensions = [];
 axios
@@ -222,7 +200,6 @@ const onMessageHandler = (channel, context, message, self) => {
 
   handleViewerList(username);
   handleBigFollows(channel, displayName, message);
-  handleDogeHype(channel, displayName, message);
   handleJoins(channel, displayName, message);
   handleShoutouts(channel, username, displayName);
   handleCommandsAndMessages(channel, displayName, message, broadcaster);
