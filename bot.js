@@ -176,6 +176,20 @@ const handleCommandsAndMessages = async (channel, displayName, message, broadcas
       .then(cooldowns => twitch.say(channel, cooldowns, delay))
       .catch(err => twitch.say(channel, err, delay));
   }
+
+  if (message.startsWith('!reset')) {
+    if (!broadcaster) {
+      twitch.say(channel, `Sorry, only the broadcaster can reset me. ;)`, delay);
+      return;
+    }
+
+    alreadyShoutted.clear();
+    viewers = {};
+    players = {};
+    joinable = false;
+
+    twitch.say(channel, `Reset triggered!`, delay);
+  }
 }
 
 const handleViewerList = username => {
@@ -210,8 +224,8 @@ const onMessageHandler = (channel, context, message, self) => {
   handleBigFollows(channel, displayName, message);
   handleDogeHype(channel, displayName, message);
   handleJoins(channel, displayName, message);
-  handleCommandsAndMessages(channel, displayName, message, broadcaster);
   handleShoutouts(channel, username, displayName);
+  handleCommandsAndMessages(channel, displayName, message, broadcaster);
 }
 
 const onRaidHandler = (channel, username, viewers) => {
