@@ -1,10 +1,16 @@
 
-import config from 'config';
-const thanosGame = config.get('thanos');
-const { exempt } = thanosGame;
+const exempt = [
+  "abr71310",
+  "ptwister",
+  "ca5an0va",
+  "squatbunnie",
+  "fenrirg",
+  "qqobes33",
+  "bbymeryl",
+  "cyphercam"
+]
 
-const twitch = config.get('twitch');
-const botName = twitch.identity.username;
+const botName = process.env.TWITCH_BOT_USERNAME;
 
 import { getRandomElements, arraySubtract } from './utils.js';
 

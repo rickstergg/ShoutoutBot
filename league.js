@@ -1,12 +1,7 @@
-import config from 'config';
-const {
-  riotApiKey,
-  region,
-  defaultSummonerName,
-} = config.get('riot');
-
 import TeemoJS from 'teemojs';
-const riotApi = TeemoJS(riotApiKey);
+const riotApi = TeemoJS(process.env.RIOT_API_KEY);
+const region = process.env.RIOT_REGION;
+const defaultSummonerName = process.env.DEFAULT_SUMMONER_NAME;
 
 import bent from 'bent';
 const getJSON = bent('json');
