@@ -1,7 +1,7 @@
 import tmi from 'tmi.js';
-import config from 'config';
 import axios from 'axios';
 import chalk from 'chalk';
+import 'dotenv/config';
 
 import {
   formatLeagueRank,
@@ -20,10 +20,25 @@ import {
   thanos,
 } from './viewerGames.js';
 
-const twitchOpts = config.get('twitch');
-const twitch = new tmi.client(twitchOpts);
+const twitch = new tmi.client({
+  "options": {
+    "debug": true,
+    "messagesLogLevel": "info"
+  },
+  "connection": {
+    "reconnect": true,
+    "secure": true
+  },
+  "identity": {
+    "username": process.env.TWITCH_BOT_USERNAME,
+    "password": process.env.TWITCH_OAUTH_TOKEN,
+  },
+  "channels": [
+    process.env.TWITCH_CHANNEL
+  ]
+});
 
-const delay = config.get('delay');
+const delay = process.env.DELAY;
 const alreadyShoutted = new Set();
 
 let viewers = {};
