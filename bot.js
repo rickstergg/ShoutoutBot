@@ -1,6 +1,7 @@
 import tmi from 'tmi.js';
 import config from 'config';
 import axios from 'axios';
+import chalk from 'chalk';
 
 import {
   formatLeagueRank,
@@ -74,7 +75,7 @@ let domainExtensions = [];
 axios
   .get("https://data.iana.org/TLD/tlds-alpha-by-domain.txt")
   .then((response) => domainExtensions = response.data.trim().split("\n").slice(1) || [])
-  .catch((err) => console.log("Can't fetch domain extensions, defaulting to empty array.", err));
+  .catch((err) => console.log(chalk.red("Can't fetch domain extensions, defaulting to empty array.", err)));
 
 const handleBigFollows = (channel, displayName, message) => {
   const msg = message.toLowerCase();
@@ -178,7 +179,7 @@ const handleShoutouts = (channel, username, displayName) => {
   if (alreadyShoutted.has(username)) { return; }
   if (isStreamer(username)) { setTimeout(() => twitch.say(channel, greetStreamer(username, displayName)), delay); }
   if (isVIP(username)) { setTimeout(() => twitch.say(channel, greetVIP(username, displayName)), delay); }
-  console.log("=== SAW", username, displayName, "===");
+  console.log(chalk.yellow(`=== SAW ${username} ${displayName} ===`));
   alreadyShoutted.add(username);
 }
 
@@ -204,7 +205,7 @@ const onMessageHandler = (channel, context, message, self) => {
 }
 
 const onRaidHandler = (channel, username, viewers) => {
-  console.log(`=== RAID for ${viewers} viewers from ${username} ===`);
+  console.log(chalk.blue(`=== RAID for ${viewers} viewers from ${username} ===`));
   setTimeout(() => twitch.say(channel, `HOLY SHIT, thank you ${username} for the RAIDD!`, delay));
   setTimeout(() => twitch.say(channel, `!so ${username}`, delay * 2));
   alreadyShoutted.add(username);
@@ -212,7 +213,7 @@ const onRaidHandler = (channel, username, viewers) => {
 
 // Only happens if you are logged in / authed as the broadcaster
 const onHostHandler = (channel, username, viewers, autohost) => {
-  console.log(`=== HOST for ${viewers} viewers from ${username} ===`);
+  console.log(chalk.blue(`=== HOST for ${viewers} viewers from ${username} ===`));
   setTimeout(() => twitch.say(channel, `Thank you SO MUCH for the host, ${username}!`, delay));
   setTimeout(() => twitch.say(channel, `!so ${username}`, delay * 2));
   alreadyShoutted.add(username);
@@ -220,7 +221,7 @@ const onHostHandler = (channel, username, viewers, autohost) => {
 
 const onJoinHandler = (channel, username, self) => {
   viewers[username] = true;
-  console.log(username, 'has joined the channel');
+  console.log(chalk.green(`${username} has joined the channel`));
 }
 
 const onLeaveHandler = (channel, username, self) => {
