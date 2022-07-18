@@ -71,3 +71,18 @@ Note: I'll include a check for these commands in the future, but if you don't ha
   - DEEZ NUTS a random word on stream
   - Provide optional param for raffle to select a winner(s)
   - Spotify song integration, list the current song with !song or something.
+
+# Thank yous
+
+Huge props to all these lovely friends and streamers for helping me test CypherCam and trusting the project with modding their communities.
+
+* [Kobes](https://www.twitch.tv/qqobes33)
+* [Laura](https://www.twitch.tv/thelaurasoria)
+* [Sachiee](https://www.twitch.tv/sachimusix)
+* [Beita](https://www.twitch.tv/beita)
+* [Jess](https://www.twitch.tv/jessisamess3)
+* [Queenie](https://www.twitch.tv/queenie_panda)
+* [Archy](https://www.twitch.tv/archhion)
+* [Jama](https://www.twitch.tv/jamatotv)
+
+and a few more, behind the scenes ;)
