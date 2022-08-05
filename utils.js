@@ -261,7 +261,10 @@ const streamers = [
   "gremcs",
   "pewpewbazooka",
   "itspsychicangel",
-  "rickstergg"
+  "kingbyblooddd",
+  "blayyyzn",
+  "yokusho",
+  "uwunightkila"
 ];
 
 const vips = ['meluvcandy1'];
