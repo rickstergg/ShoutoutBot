@@ -264,7 +264,14 @@ const streamers = [
   "kingbyblooddd",
   "blayyyzn",
   "yokusho",
-  "uwunightkila"
+  "uwunightkila",
+  "im_timbo",
+  "xrisingnovax",
+  "jessisamess3",
+  "satrichan",
+  "tessy8",
+  "yeongduck",
+  "oldmanmachitv"
 ];
 
 const vips = ['meluvcandy1'];
