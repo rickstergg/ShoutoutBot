@@ -271,7 +271,12 @@ const streamers = [
   "satrichan",
   "tessy8",
   "yeongduck",
-  "oldmanmachitv"
+  "oldmanmachitv",
+  "stephieveee",
+  "daingosaurr",
+  "akanabii",
+  "tulyoo",
+  "brandzworld"
 ];
 
 const vips = ['meluvcandy1'];
