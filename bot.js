@@ -3,6 +3,9 @@ import axios from 'axios';
 import chalk from 'chalk';
 import 'dotenv/config';
 
+// TODO: DONT FUCK IT UP
+// Use the twitch nodejs modules to implement chat commands
+// Use the API to make sure we get /timeouts so Thanos can yolo.
 import {
   formatLeagueRank,
   greetVIP,

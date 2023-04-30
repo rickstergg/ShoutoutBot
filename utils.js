@@ -196,7 +196,7 @@ const streamers = [
   "jaclynz",
   "r0semilktea",
   "vulocity",
-  "sooondooboo",
+  "belindabtw",
   "romeo__45",
   "uncutjem",
   "silent_wh1sper",
@@ -276,7 +276,21 @@ const streamers = [
   "daingosaurr",
   "akanabii",
   "tulyoo",
-  "brandzworld"
+  "brandzworld",
+  "hannah_0031",
+  "vyzions",
+  "y00nic0rn",
+  "yeongjaetv",
+  "iandouglas736",
+  "tanimolol",
+  "jgwu",
+  "ramdino",
+  "zdchance",
+  "iressa",
+  "shammerham",
+  "katie2tru",
+  "ovictoriaa",
+  "pyro_ttv_"
 ];
 
 const vips = ['meluvcandy1'];
