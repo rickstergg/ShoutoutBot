@@ -290,7 +290,14 @@ const streamers = [
   "shammerham",
   "katie2tru",
   "ovictoriaa",
-  "pyro_ttv_"
+  "pyro_ttv_",
+  "briikachu",
+  "queennebuluh",
+  "shareono",
+  "ralphcardinale",
+  "misteroni",
+  "epiczone102",
+  "cloudytomato"
 ];
 
 const vips = ['meluvcandy1'];
