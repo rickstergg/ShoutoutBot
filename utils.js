@@ -297,7 +297,10 @@ const streamers = [
   "ralphcardinale",
   "misteroni",
   "epiczone102",
-  "cloudytomato"
+  "cloudytomato",
+  "mizzjade",
+  "ygrine12",
+  "gureisoo"
 ];
 
 const vips = ['meluvcandy1'];
