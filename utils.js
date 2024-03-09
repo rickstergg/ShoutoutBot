@@ -300,7 +300,16 @@ const streamers = [
   "cloudytomato",
   "mizzjade",
   "ygrine12",
-  "gureisoo"
+  "gureisoo",
+  "psychiia",
+  "ace_sd",
+  "itstrashie",
+  "jesslauu",
+  "dyenma",
+  "trut",
+  "callme_bello",
+  "tokyogirlxo",
+  "paulwchung",
 ];
 
 const vips = ['meluvcandy1'];
