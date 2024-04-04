@@ -310,6 +310,17 @@ const streamers = [
   "callme_bello",
   "tokyogirlxo",
   "paulwchung",
+  "vaguelygoose",
+  "raidenlorz",
+  "blandwaters",
+  "tomomasu",
+  "forelorne",
+  "cambocarl",
+  "altamaria",
+  "lala_xitlali",
+  "haich3w",
+  "eldenwelden",
+  "vaticqt"
 ];
 
 const vips = ['meluvcandy1'];
