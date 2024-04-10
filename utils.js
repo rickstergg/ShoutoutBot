@@ -321,7 +321,9 @@ const streamers = [
   "haich3w",
   "eldenwelden",
   "vaticqt",
-  "fadeddice"
+  "fadeddice",
+  "vanster18",
+  "ogspiritwolf"
 ];
 
 const vips = ['meluvcandy1'];
